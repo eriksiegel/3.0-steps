@@ -335,7 +335,7 @@ element's [base URI].</para>
     format, provide services like update, freshen or even merge. The only format implementations
       <rfc2119>must</rfc2119> support is <biblioref linkend="zip"/>. <impl>The list of formats
       supported by the <tag>p:archive</tag> step is
-      <glossterm>implementation-defined</glossterm>.</impl></para>
+      <glossterm>implementation defined</glossterm>.</impl></para>
 
   <para>The <code>p:archive</code> step has the following input ports:</para>
   <variablelist>
@@ -370,11 +370,9 @@ element's [base URI].</para>
           operations like update, freshen or merge. Handling of ZIP files supports modifying
           archives appearing on the <port>archive</port> port (<xref linkend="cv.archive-zips"/>).
             <impl>The list of archive formats that can be modified by <tag>p:archive</tag> is
-              <glossterm>implementation-defined</glossterm>.</impl> For instance an implementation
+              <glossterm>implementation defined</glossterm>.</impl> For instance an implementation
           that supports archive merging may accept more than one document on the
-            <port>archive</port> port. <error code="C0081">It is a <glossterm>dynamic
-              error</glossterm> if the format of the archive does not match the format as specified
-            in <option>format</option> option.</error></para>
+            <port>archive</port> port.</para>
         <para>The default input for this port is the empty sequence.</para>
       </listitem>
     </varlistentry>
@@ -396,7 +394,7 @@ element's [base URI].</para>
           automatically created if there was no manifest provided), optionally amended with
           additional attributes and/or elements. <impl>The semantics of any additional attributes,
             elements and their values are
-          <glossterm>implementation-defined</glossterm>.</impl></para>
+          <glossterm>implementation defined</glossterm>.</impl></para>
       </listitem>
     </varlistentry>
   </variablelist>
@@ -409,7 +407,7 @@ element's [base URI].</para>
         <para>The format of the archive can be specified using the <option>format</option> option.
           Implementations <rfc2119>must</rfc2119> support the <biblioref linkend="zip"/> format,
           specified with the value <code>zip</code>. <impl>It is
-              <glossterm>implementation-defined</glossterm> what other formats are
+              <glossterm>implementation defined</glossterm> what other formats are
           supported.</impl></para>
       </listitem>
     </varlistentry>
@@ -418,7 +416,7 @@ element's [base URI].</para>
       <listitem>
         <para>The <option>parameters</option> option can be used to supply parameters to control the
           archiving. <impl>The semantics of the keys and the allowed values for these keys are
-              <glossterm>implementation-defined</glossterm>.</impl>
+              <glossterm>implementation defined</glossterm>.</impl>
           <error code="C0079">It is a <glossterm>dynamic error</glossterm> if the map
               <option>parameters</option> contains an entry whose key is defined by the
             implementation and whose value is not valid for that key.</error></para>
@@ -442,7 +440,7 @@ element's [base URI].</para>
       <para>If the <option>format</option> option is specified, this determines the format of the
         archive. Implementations <rfc2119>must</rfc2119> support the <biblioref linkend="zip"/>
         format, specified with the value <code>zip</code>. <impl>It is
-            <glossterm>implementation-defined</glossterm> what other formats are supported.</impl>
+            <glossterm>implementation defined</glossterm> what other formats are supported.</impl>
         <error code="C0081">It is a <glossterm>dynamic error</glossterm> if the format of the
           archive does not match the format as specified in the <option>format</option>
           option.</error></para>
@@ -451,14 +449,14 @@ element's [base URI].</para>
       <para>If no <option>format</option> option is specified or if its value is the empty sequence,
         the archive's format will be determined by the step, using the <code>content-type</code>
         document-property of the document on the <port>archive</port> port and/or by inspecting its
-        contents. <impl>It is <glossterm>implementation-defined</glossterm> how the step determines
+        contents. <impl>It is <glossterm>implementation defined</glossterm> how the step determines
           the archive's format.</impl> Implementations <rfc2119>should</rfc2119> recognize archives
         in <biblioref linkend="zip"/> format. </para>
     </listitem>
   </itemizedlist>
 
-  <para><error code="C0085">It is a <glossterm>dynamic error</glossterm> if the format of the
-      archive cannot be understood, determined and/or processed.</error></para>
+  <para><error code="C0085">It is a <glossterm>dynamic error</glossterm> if the format of the archive 
+    does not match the specified format, cannot be understood, determined and/or processed.</error></para>
 
   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
@@ -471,7 +469,7 @@ element's [base URI].</para>
     <e:rng-pattern name="VocabArchive" xml:id="cv.archive"/>
 
     <para><impl>The <code>c:archive</code> root element may contain additional
-          <glossterm>implementation-defined</glossterm> attributes.</impl></para>
+          <glossterm>implementation defined</glossterm> attributes.</impl></para>
 
     <para>All entries in the archive must be present as <tag>c:entry</tag> child elements:</para>
 
@@ -508,15 +506,15 @@ element's [base URI].</para>
       </listitem>
       <listitem>
         <para>The <code>method</code> attribute specifies how the entry should be compressed.
-            <impl>The default compression method is <glossterm>implementation-defined</glossterm>.
+            <impl>The default compression method is <glossterm>implementation defined</glossterm>.
           </impl>Implementations <rfc2119>must</rfc2119> support no compression, specified with the
-          value <code>none</code>. <impl>It is <glossterm>implementation-defined</glossterm> what
+          value <code>none</code>. <impl>It is <glossterm>implementation defined</glossterm> what
             other compression methods are supported.</impl></para>
       </listitem>
       <listitem>
         <para>The <code>level</code> attribute specifies the level of compression. <impl>The default
-            compression method is <glossterm>implementation-defined</glossterm>. </impl>
-          <impl>It is <glossterm>implementation-defined</glossterm> what compression levels are
+            compression method is <glossterm>implementation defined</glossterm>. </impl>
+          <impl>It is <glossterm>implementation defined</glossterm> what compression levels are
             supported.</impl></para>
       </listitem>
     </itemizedlist>
@@ -527,7 +525,7 @@ element's [base URI].</para>
       construct such an archive using <code>p:archive</code>.</para>
 
     <para><impl>The <code>c:entry</code> elements may contain additional
-          <glossterm>implementation-defined</glossterm> attributes.</impl></para>
+          <glossterm>implementation defined</glossterm> attributes.</impl></para>
 
     <para>If no manifest entry is provided for a document appearing on the <port>source</port> port,
       the step will manufacture a manifest entry from the document’s <code>base-uri</code> property.
@@ -563,65 +561,92 @@ element's [base URI].</para>
         <term><code>command</code></term>
         <listitem>
           <para>Specifies what operation to perform. If not specified, its default value is
-              <code>update</code>. Possible values are:</para>
+              <literal>update</literal>. Implementations must support the values <literal>update</literal>,
+              <literal>create</literal>, <literal>freshen</literal>, and <literal>delete</literal>.
+              <impl>The <tag>p:archive</tag> step may support additional,
+              <glossterm>implementation defined</glossterm> commands for ZIP files.</impl>
+              Unless otherwise specified, exactly zero or one ZIP archive can appear on the
+              <port>archive</port> port for the commands described below. If no archive appears,
+              a new archive will be created.
+          </para>
+
           <variablelist>
             <varlistentry>
               <term><code>update</code></term>
               <listitem>
-                <para>When the <code>command</code> parameter is set to <code>update</code> or not
-                  specified, zero or exactly one document in ZIP format can appear on the
-                    <port>archive</port> port. If there is no document on the <port>archive</port>
-                  port, an empty ZIP archive is assumed.</para>
-                <para>The contents of the manifest (either provided or automatically constructed, see
-                    <xref linkend="cv.archive-manifest"/>) is held against the entries in the ZIP
-                  file provided on the <port>archive</port> port: </para>
-                <itemizedlist>
+                <para>When the <code>command</code> parameter is set to <code>update</code>, the
+                ZIP archive will be updated:</para>
+
+                <orderedlist>
                   <listitem>
-                    <para>Any entry in the manifest that does not exist in the ZIP file provided on
-                      the <port>archive</port> port is added.</para>
+                    <para>For every entry in the ZIP file:</para>
+                    <itemizedlist>
+                      <listitem>
+                        <para>If the manifest contains a <tag>c:entry</tag> with a matching
+                        <tag class="attribute">name</tag>, the entry in the ZIP file is updated with
+                        the document identified by the <tag>c:entry</tag> in the manifest.</para>
+                      </listitem>
+                      <listitem>
+                        <para>If the manifest does not contain a matching <tag>c:entry</tag>, the
+                        ZIP entry name is resolved against the base URI of the ZIP file.</para>
+                        <itemizedlist>
+                          <listitem>
+                            <para>If a document exists at that URI and either has no timestamp or has a timestamp
+                            more than the timestamp in the ZIP file, the entry in the ZIP file will be updated
+                            with the document at the resolved URI.</para>
+                          </listitem>
+                          <listitem>
+                            <para>If no document exists at that URI, or the document cannot be accessed,
+                            or the document has a timestamp and the timestamp in the ZIP archive is more recent
+                            than the timestamp of the document, then the ZIP entry is unchanged.</para>
+                          </listitem>
+                        </itemizedlist>
+                      </listitem>
+                    </itemizedlist>
                   </listitem>
                   <listitem>
-                    <para>For any entry that does exist in the ZIP file provided on the
-                        <port>archive</port> port, a timestamp compare is done. When the entry in
-                      the manifest is newer than the entry in the ZIP file provided on the
-                        <port>archive</port> port, it is replaced. Documents that are either
-                      specified in the manifest or come from the <port>source</port> port have no
-                      timestamp and will <emphasis>always</emphasis> cause a replace to be
-                      done.</para>
+                    <para>For every <tag>c:entry</tag> in the manifest that does not have a matching
+                    entry in the ZIP file, the ZIP file will be updated by adding the document identified
+                    by the <tag>c:entry</tag> to the ZIP file.</para>
                   </listitem>
-                </itemizedlist>
-                <para>If the archive that is updated contains entries that are not mentioned in the
-                  manifest, these entries are moved to the end of the archive. In other words:
-                  entries in the manifest come first.</para>
+                </orderedlist>
               </listitem>
             </varlistentry>
             <varlistentry>
               <term><code>create</code></term>
               <listitem>
-                <para>When the <code>command</code> parameter is set to <code>create</code>, the
-                    <code>p:archive</code> step will behave exactly as for <code>update</code>,
-                  except that existing entries will <emphasis>always</emphasis> be updated,
-                  regardless of their timestamp.</para>
+                <para>When the <code>command</code> parameter is set to <code>create</code>,
+                the ZIP archive will be created. Creating a ZIP archive behaves exactly like
+                <literal>update</literal> except that any timestamps
+                are ignored; every ZIP entry will be updated or created if there is a <tag>c:entry</tag> or
+                matching document for it.</para>
               </listitem>
             </varlistentry>
             <varlistentry>
               <term><code>freshen</code></term>
               <listitem>
-                <para>When the <code>command</code> parameter is set to <code>freshen</code>, the
-                    <code>p:archive</code> step will behave exactly as for <code>update</code>,
-                  except that no new entries will be added. Any entries in the manifest that do not
-                  match an entry in the archive are ignored.</para>
+                <para>When the <code>command</code> parameter is set to <code>freshen</code>,
+                existing files in the ZIP archive may be updated, but no new files will be added.
+                Freshing a ZIP archive behaves exactly like <literal>update</literal> except that
+                only entries that already exist in the ZIP archive are considered.</para>
               </listitem>
             </varlistentry>
             <varlistentry>
               <term><code>delete</code></term>
               <listitem>
-                <para>When the <code>command</code> parameter is set to <code>delete</code>, exactly
-                  one document in ZIP format must appear on the <port>archive</port> port. The
-                  contents of the manifest (either provided or (partially) constructed, see <xref linkend="cv.archive-manifest"/>) is held against the entries in the ZIP file
-                  provided on the <port>archive</port> port. Any entries in the manifest file that
-                  match an entry in the ZIP archive will be deleted. All other entries in the
-                  manifest are ignored.</para>
+                <para>When the <code>command</code> parameter is set to <code>delete</code>,
+                exactly one document in ZIP format must appear on the <port>archive</port> port.
+                For every entry in the ZIP file:</para>
+                <itemizedlist>
+                  <listitem>
+                    <para>If the manifest contains a <tag>c:entry</tag> with a matching
+                    <tag class="attribute">name</tag>, the entry in the ZIP file is removed from
+                    the ZIP archive.</para>
+                  </listitem>
+                </itemizedlist>
+                <para>If the manifest contains <tag>c:entry</tag>
+                elements which do not have a matching entry in the ZIP
+                archive, they are simply ignored.</para>
               </listitem>
             </varlistentry>
           </variablelist>
@@ -631,19 +656,21 @@ element's [base URI].</para>
         <term><code>level</code></term>
         <listitem>
           <para>Specifies the default compression level for files added to or updated in the
-            archive. It can be overruled on a per-entry basis with a <code>c:entry/@level</code>
-            attribute in the manifest. Values that must be supported for ZIP files are:
-              “<code>smallest</code>” | “<code>fastest</code>” | “<code>default</code>” |
-              “<code>huffman</code>” | “<code>none</code>”.</para>
+            archive. If the <tag class="attribute">level</tag> attribute is specified on a
+            <tag>c:entry</tag>, its value takes precedence for that entry.
+            Values that must be supported for ZIP files are:
+              “<code>smallest</code>”, “<code>fastest</code>”, “<code>default</code>”,
+              “<code>huffman</code>”, and “<code>none</code>”.</para>
         </listitem>
       </varlistentry>
       <varlistentry>
         <term><code>method</code></term>
         <listitem>
           <para>Specifies the default compression method for files added to or updated in the
-            archive. It can be overruled on a per-entry basis with a <code>c:entry/@method</code>
-            attribute in the manifest. Values that must be supported for ZIP files are:
-              “<code>none</code>” | “<code>deflated</code>”.</para>
+            archive. If the <tag class="attribute">method</tag> attribute is specified on a
+            <tag>c:entry</tag>, its value takes precedence for that entry.
+            Values that must be supported for ZIP files are:
+              “<code>none</code>” and “<code>deflated</code>”.</para>
         </listitem>
       </varlistentry>
     </variablelist>
@@ -655,7 +682,7 @@ element's [base URI].</para>
     <para>Implementations of other archive formats <rfc2119>should</rfc2119> use the same parameter
       names if applicable. The value spaces for these parameters may be format-specific though.
         <impl>The actual parameter names supported by <tag>p:archive</tag> for a particular format
-        are <glossterm>implementation-defined</glossterm>.</impl></para>
+        are <glossterm>implementation defined</glossterm>.</impl></para>
 
   </section>
 
@@ -693,9 +720,7 @@ element's [base URI].</para>
         archive. Implementations <rfc2119>must</rfc2119> support the <biblioref linkend="zip"/>
         format, specified with the value <code>zip</code>. <impl>It is
             <glossterm>implementation-defined</glossterm> what other formats are supported.</impl>
-        <error code="C0081">It is a <glossterm>dynamic error</glossterm> if the format of the
-          archive does not match the format as specified in the <option>format</option>
-          option.</error></para>
+        </para>
     </listitem>
     <listitem>
       <para>If no <option>format</option> option is specified or if its value is the empty sequence,
@@ -707,8 +732,8 @@ element's [base URI].</para>
     </listitem>
   </itemizedlist>
 
-  <para><error code="C0085">It is a <glossterm>dynamic error</glossterm> if the format of the
-      archive cannot be understood, determined and/or processed.</error></para>
+  <para><error code="C0085">It is a <glossterm>dynamic error</glossterm> if the format of the archive 
+    does not match the specified format, cannot be understood, determined and/or processed.</error></para>
 
   <para>The <option>parameters</option> option can be used to supply parameters to control the
     archive manifest generation. <impl>The semantics of the keys and the allowed values for these
@@ -727,7 +752,10 @@ element's [base URI].</para>
     Implementations <rfc2119>must</rfc2119> supply an <tag>c:entry</tag> element and its
       <code>name</code> attribute for every entry in the archive. The value of the generated
     manifest's <code>c:entry/@href</code> attribute will be determined in the same way as a base URI
-    of an unarchived document by <xref linkend="c.unarchive"/>. <impl>Additional information
+    of an unarchived document by <xref linkend="c.unarchive"/>. 
+    <error code="C0120">It is a <glossterm>dynamic error</glossterm> if the 
+      <option>relative-to</option> option is not present and the document on the 
+      <port>source</port> port does not have a base URI.</error><impl>Additional information
       provided for entries in <tag>p:archive-manifest</tag> is
         <glossterm>implementation-defined</glossterm>.</impl></para>
 
@@ -740,133 +768,232 @@ element's [base URI].</para>
 
 </section>
 <section xml:id="c.cast-content-type">
-<title>p:cast-content-type</title>
-
-<para>The <tag>p:cast-content-type</tag> step changes the media type
-of its input.</para>
-
-<p:declare-step type="p:cast-content-type">
-   <p:input port="source" content-types="*/*"/>
-   <p:output port="result" content-types="*/*"/>
-   <p:option name="content-type" required="true" as="xs:string"/>
-   <p:option name="parameters" as="map(xs:QName,item()*)?"/>
-</p:declare-step>
-
-<para>The input document is transformed from one media type to another.
-<error code="C0070">It is a <glossterm>dynamic
-error</glossterm> if the supplied <option>content-type</option> is not
-a valid media type of the form
-“<literal><replaceable>type</replaceable>/<replaceable>subtype</replaceable>+<replaceable>ext</replaceable></literal>”
- where “<literal>+<replaceable>ext</replaceable></literal>” is optional.</error>
-<error code="C0071">It is a <glossterm>dynamic
-error</glossterm> if the <tag>p:cast-content-type</tag> step
-cannot perform the requested cast.</error>
-</para>
-
-<para>The <option>parameters</option> can be used to supply parameters to
-control casting. <impl>The semantics of the keys and the allowed values for
-these keys are <glossterm>implementation-defined</glossterm>.</impl>
-<error code="C0079">It is a <glossterm>dynamic error</glossterm> if the map
-<option>parameters</option> contains an entry whose key is defined by the
-implementation and whose value is not valid for that key.</error></para>
-
-<itemizedlist>
-<listitem>
-<para>Casting from one XML media type to another simply changes the
-“<literal>content-type</literal>” document property.
-</para>
-</listitem>
-
-<listitem>
-<para>Casting from an HTML media type to an XML media type, if the input
-document is already an XPath data model document, simply changes the
-“<literal>content-type</literal>” document property.
-<impl>Casting an HTML document that isn’t already an XPath data
-model document into XML is
-<glossterm>implementation-defined</glossterm>.</impl>
-</para>
-</listitem>
-
-<listitem>
-<para>Casting from an XML media type to an HTML media type, simply changes the
-“<literal>content-type</literal>” document property.
-</para>
-</listitem>
-
-<listitem>
-<para>Casting from a JSON media type to an XML media type, converts the
-JSON into XML. An implementation <rfc2119>must</rfc2119> support the format
-specified in section “XML Representation of JSON” of <biblioref linkend="xpath31-functions"/>
-as default for the resulting XML. <impl>It is <glossterm>implementation defined</glossterm> whether
-other result formats are supported.</impl></para>
-</listitem>
-
-<listitem>
-<para>Casting from an XML media type to a JSON media type, converts the
-XML into JSON. <impl>The precise nature of the conversion from XML to JSON
-is <glossterm>implementation-defined</glossterm>.</impl>
-If the input document is an XML representation of JSON as defined in
-<biblioref linkend="xpath31-functions"/>,
-implementations <rfc2119>must</rfc2119> use <function>fn:xml-to-json</function>
-by default. If the input document has a <tag>c:param-set</tag> document element,
-a map <rfc2119>must</rfc2119> be returned that represents the document's 
-<tag>c:param</tag> elements.
-</para>
-</listitem>
-
-<listitem xml:id="c.data">
-<para>Casting from a non-XML media type to an XML media type produces an
-XML document with a <tag>c:data</tag> document element. The original
-media type will be preserved in the
-<tag class="attribute">content-type</tag> attribute on the
-<tag>c:data</tag> element.</para>
-
-<e:rng-pattern name="VocabData"/>
-
-<para>The content of the <tag>c:data</tag> element is the base64 encoded
-representation of the non-XML content.</para>
-</listitem>
-
-<listitem>
-<para>Casting from an XML media type to a non-XML media type
-<rfc2119>must</rfc2119> support the case where the input document is
-a <tag>c:data</tag> document. The resulting document will
-have the specified media type and a representation that
-is the content of the <tag>c:data</tag> element after decoding the base64
-encoded content.</para>
-<para><error code="C0072">It is a <glossterm>dynamic
-error</glossterm> if the <tag>c:data</tag> contains content is not
-a valid base64 string.</error></para>
-<para><error code="C0073">It is a <glossterm>dynamic
-error</glossterm> if the <tag>c:data</tag> element does not have
-a <tag class="attribute">content-type</tag> attribute.</error></para>
-<para><error code="C0074">It is a <glossterm>dynamic
-error</glossterm> if the <option>content-type</option> is supplied and is
-not the same as the <tag class="attribute">content-type</tag> specified on
-the <tag>c:data</tag> element.</error>
-</para>
-<para><impl>Casting from an XML media type to a non-XML media type when
-the input document is not a <tag>c:data</tag> document is
-<glossterm>implementation-defined</glossterm>.</impl></para>
-</listitem>
-<listitem>
-<para><impl>Casting from one non-XML media type to another
-non-XML media type is <glossterm>implementation-defined</glossterm>.</impl>
-</para>
-</listitem>
-</itemizedlist>
-
-<para><error code="C075">In all cases except when the input document
-is a <tag>c:data</tag> element, it is a <glossterm>dynamic
-error</glossterm> if the <option>content-type</option> is not supplied.</error>
-</para>
-
-<simplesect>
-<title>Document properties</title>
-<para feature="cast-content-type-preserves-some">All document
-properties are preserved except the <code>content-type</code> property
-which is updated accordingly.</para>
-</simplesect>
+   <title>p:cast-content-type</title>
+   
+   <para>The <tag>p:cast-content-type</tag> step creates a new document by 
+      changing the media type of its input. If the value of the <option>content-type</option>
+   option and the current media type of the document on <port>source</port> port are
+   the same, this document will appear unchanged on <port>result</port> port.</para>
+   
+   <p:declare-step type="p:cast-content-type">
+      <p:input port="source" content-types="*/*"/>
+      <p:output port="result" content-types="*/*"/>
+      <p:option name="content-type" required="true" as="xs:string"/>
+      <p:option name="parameters" as="map(xs:QName,item()*)?"/>
+   </p:declare-step>
+   
+   <para>The input document is transformed from one media type to another.
+      <error code="C0070">It is a <glossterm>dynamic
+         error</glossterm> if the supplied <option>content-type</option> is not
+         a valid media type of the form
+         “<literal><replaceable>type</replaceable>/<replaceable>subtype</replaceable>+<replaceable>ext</replaceable></literal>”
+         where “<literal>+<replaceable>ext</replaceable></literal>” is optional.</error>
+      <error code="C0071">It is a <glossterm>dynamic
+         error</glossterm> if the <tag>p:cast-content-type</tag> step
+         cannot perform the requested cast.</error>
+   </para>
+   
+   <para>The <option>parameters</option> can be used to supply parameters to
+      control casting. <impl>The semantics of the keys and the allowed values for
+         these keys are <glossterm>implementation-defined</glossterm>.</impl>
+      <error code="C0079">It is a <glossterm>dynamic error</glossterm> if the map
+         <option>parameters</option> contains an entry whose key is defined by the
+         implementation and whose value is not valid for that key.</error></para>
+   
+   <section xml:id="casting-from-xml">
+      <title>Casting from an XML media type</title> 
+      <itemizedlist>
+         <listitem>
+            <para>Casting from one XML media type to another simply changes the
+               “<literal>content-type</literal>” document property.
+            </para>
+         </listitem>
+         <listitem>
+            <para>Casting from an XML media type to an HTML media type changes the
+               “<literal>content-type</literal>” document property and removes any
+               serialization property.
+            </para>
+         </listitem>
+         <listitem>
+            <para>Casting from an XML media type to a JSON media type converts the
+               XML into JSON. <impl>The precise nature of the conversion from XML to JSON
+                  is <glossterm>implementation-defined</glossterm>.</impl>
+               If the input document is an XML representation of JSON as defined in
+               <biblioref linkend="xpath31-functions"/>,
+               implementations <rfc2119>must</rfc2119> produce the same result as 
+               <literal>fn:parse-json(fn:xml-to-json())</literal>
+               by default. If the input document has a <tag>c:param-set</tag> document element,
+               a map <rfc2119>must</rfc2119> be returned that represents the document's 
+               <tag>c:param</tag> elements. The serialization property is removed.
+            </para>
+         </listitem>
+         <listitem>
+            <para>Casting from an XML media type to a text media type serializes the XML document
+               by calling <function>fn:serialize($doc, $param)</function> where <literal>$doc</literal> is
+               the document on the <port>source</port> port and <literal>$param</literal> is the serialization
+               property of this document. The resulting string is wrapped by a document node and returned
+               on the <port>result</port> port. The serialization property is removed.</para>
+         </listitem>
+         <listitem>
+            <para>Casting from an XML media type to any other media type
+               <rfc2119>must</rfc2119> support the case where the input document is
+               a <tag>c:data</tag> document. The resulting document will
+               have the specified media type and a representation that
+               is the content of the <tag>c:data</tag> element after decoding the base64
+               encoded content The serialization property is removed.</para>
+            <para><error code="C0072">It is a <glossterm>dynamic
+               error</glossterm> if the <tag>c:data</tag> contains content is not
+               a valid base64 string.</error></para>
+            <para><error code="C0073">It is a <glossterm>dynamic
+               error</glossterm> if the <tag>c:data</tag> element does not have
+               a <tag class="attribute">content-type</tag> attribute.</error></para>
+            <para><error code="C0074">It is a <glossterm>dynamic
+               error</glossterm> if the <option>content-type</option> is supplied and is
+               not the same as the <tag class="attribute">content-type</tag> specified on
+               the <tag>c:data</tag> element.</error>
+            </para>
+            <para><impl>Casting from an XML media type to any other media type when
+               the input document is not a <tag>c:data</tag> document is
+               <glossterm>implementation-defined</glossterm>.</impl></para>
+         </listitem>
+      </itemizedlist>
+   </section>
+   <section xml:id="casting-from-html">
+      <title>Casting from an HTML media type</title>
+      <itemizedlist>
+         <listitem>
+            <para>Casting from an HTML media type to an XML media type changes
+               “<literal>content-type</literal>” document property and removes any
+               serialization property. </para>
+         </listitem>
+         <listitem>
+            <para>Casting from an HTML media type to another HTML media type
+               changes “<literal>content-type</literal>” document property.</para>
+         </listitem>
+         <listitem>
+            <para><impl>Casting from an HTML media type to a JSON media type is 
+               <glossterm>implementation-defined</glossterm>.</impl></para>
+         </listitem>
+         <listitem>
+            <para>Casting an an HTML media type to a text media type serializes the HTML document
+               by calling <function>fn:serialize($doc, $param)</function> where <literal>$doc</literal> is
+               the document on the <port>source</port> port and <literal>$param</literal> is the serialization
+               property of this document. The resulting string is wrapped by a document node and returned
+               on the <port>result</port> port. The serialization property is removed.</para>
+         </listitem>
+         <listitem>
+            <para><impl>Casting from an HTML media type to any other media type is
+               <glossterm>implementation-defined</glossterm>.</impl></para>
+         </listitem>
+      </itemizedlist>
+   </section>
+   <section xml:id="casting-from-json">
+      <title>Casting from a JSON media type</title>
+      <itemizedlist>
+         <listitem>
+            <para>Casting from a JSON media type to an XML media type converts the
+               JSON into XML. An implementation <rfc2119>must</rfc2119> support the format
+               specified in section “XML Representation of JSON” of <biblioref linkend="xpath31-functions"/>
+               as default for the resulting XML. <impl>It is <glossterm>implementation-defined</glossterm> whether
+                  other result formats are supported.</impl> The serialization property is removed.</para>
+         </listitem>
+         <listitem>
+            <para><impl>Casting from a JSON media type to an HTML media type is
+               <glossterm>implementation-defined</glossterm>.</impl></para>
+         </listitem>
+         <listitem>
+            <para>Casting from a JSON media type to another JSON media type
+               changes “<literal>content-type</literal>” document property.</para>
+         </listitem>
+         <listitem>
+            <para>Casting from a JSON media type to a text media type serializes the JSON document
+               by calling <function>fn:serialize($doc, $param)</function> where <literal>$doc</literal> is
+               the document on the <port>source</port> port and <literal>$param</literal> is the serialization
+               property of this document. The resulting string is wrapped by a document node and returned
+               on the <port>result</port> port. The serialization property is removed.</para>
+         </listitem>
+         <listitem>
+            <para><impl>Casting from a JSON media type to any other media type is
+               <glossterm>implementation-defined</glossterm>.</impl></para>
+         </listitem>
+      </itemizedlist>
+   </section>
+   <section xml:id="casting-from-text">
+      <title>Casting from a text media type</title>
+      <itemizedlist>
+         <listitem>
+            <para>Casting from a text media type to an XML media type parses the text value
+               of the document on <port>source</port> port by calling <function>fn:parse-xml</function>.
+               <error code="D0049">It is a <glossterm>dynamic error</glossterm> if the text value is not
+                  a well-formed XML document</error>. The serialization property is removed.</para>
+         </listitem>
+         <listitem>
+            <para>Casting from a text media type to an HTML media type parses the text value
+               of the document on <port>source</port> port into an XPath data model document that 
+               contains a tree of elements, attributes, and other nodes. <impl>The precise way in which 
+                  text documents are parsed into the XPath data model is 
+                  <glossterm>implementation-defined</glossterm>.</impl> <error code="D0060">It is a 
+                     <glossterm>dynamic error</glossterm> if the text document can not be converted into
+                     the XPath data model</error>. The serialization property is removed.</para> 
+         </listitem>
+         <listitem>
+            <para>Casting from a text media type to a JSON media type parses the text value 
+               of the document on <port>source</port> port by calling <function>fn:parse-json($doc, $par)</function>
+               where <literal>$doc</literal> is the text document and <literal>$par</literal> is the 
+               <option>parameter</option> option. <error code="D0057">It is a <glossterm>dynamic
+                  error</glossterm> if the text document does not conform to the JSON grammar, unless the 
+                  parameter liberal is true and the processor chooses to accept the deviation.</error>
+               <error code="D0058">It is a <glossterm>dynamic error</glossterm> if the parameter duplicates is 
+                  reject and the text document contains a JSON object with duplicate keys.</error>
+               <error code="D0059">It is a <glossterm>dynamic error</glossterm> if the parameter map contains 
+                  an entry whose key is defined in the specification of <function>fn:parse-json</function> and 
+                  whose value is not valid for that key, or if it contains an entry with the key fallback 
+                  when the parameter <literal>escape</literal> with <literal>true()</literal> is also 
+                  present.</error> The serialization property is removed.
+            </para>
+         </listitem>
+         <listitem>
+            <para>Casting from a text media type to another text media type changes 
+               “<literal>content-type</literal>” document property.</para>
+         </listitem>
+         <listitem>
+            <para><impl>Casting from a text media type to any other media type is
+               <glossterm>implementation-defined</glossterm>.</impl></para>
+         </listitem>
+      </itemizedlist>
+   </section>
+   <section xml:id="casting-from-other">
+      <title>Casting from any other media type</title>
+      <itemizedlist>
+         <listitem xml:id="c.data">
+            <para>Casting from a non-XML media type to an XML media type produces an
+               XML document with a <tag>c:data</tag> document element. The original
+               media type will be preserved in the
+               <tag class="attribute">content-type</tag> attribute on the
+               <tag>c:data</tag> element.</para>
+            
+            <e:rng-pattern name="VocabData"/>
+            
+            <para>The content of the <tag>c:data</tag> element is the base64 encoded
+               representation of the non-XML content. The serialization property is removed.</para>
+         </listitem>
+         <listitem>
+            <para><impl>Casting from any other media type to a HTML media type, a JSON media type
+               or a text document is <glossterm>implementation-defined</glossterm>.</impl></para>
+         </listitem>
+         <listitem>
+            <para><impl>Casting from any other media type to any other media type is 
+               <glossterm>implementation-defined</glossterm>.</impl></para>
+         </listitem>
+      </itemizedlist>
+   </section>
+   <simplesect>
+      <title>Document properties</title>
+      <para feature="cast-content-type-preserves-some">All document
+         properties are preserved except the <code>content-type</code> property
+         which is updated accordingly and the <code>serialization</code> property
+         which is removed by some casting methods.</para>
+   </simplesect>
 </section>
 <section xml:id="c.compare">
 <title>p:compare</title>
@@ -2880,7 +3007,11 @@ the string value of the <option>replace</option> expression.</para>
       <tag>c:result</tag> element whose contents is the string representing this count.</para>
 
   <para>Lines are identified as described in <link xlink:href="https://www.w3.org/TR/xml/#sec-line-ends">XML, 2.11
-      End-of-Line Handling</link>.</para>
+      End-of-Line Handling</link>.
+For the purpose of identifying lines, if the very last character in the text
+document is a newline (&amp;#10;), that newline is ignored. (It is not a separator
+between that line and a following line that contains no characters.)
+</para>
 
   <simplesect>
     <title>Document properties</title>
@@ -2915,7 +3046,9 @@ the string value of the <option>replace</option> expression.</para>
   </itemizedlist>
 
   <para>Lines are identified as described in <link xlink:href="https://www.w3.org/TR/xml/#sec-line-ends">XML, 2.11
-      End-of-Line Handling</link>.</para>
+      End-of-Line Handling</link>.
+All lines returned by <tag>p:text-head</tag> are terminated with a single
+newline (&amp;#10;).</para>
 
   <simplesect>
     <title>Document properties</title>
@@ -2962,6 +3095,11 @@ the string value of the <option>replace</option> expression.</para>
       <glossterm>dynamic error</glossterm> if the value of option <option>overwrite-content-type</option> 
       is not a text media type.</error>
   </para>
+
+  <para>Concatenating text documents does not require identifying individual
+lines in each document, consequently no special end-of-line handling is
+performed.</para>
+
   <simplesect>
     <title>Document properties</title>
     <para feature="load-preserves-none">No document properties are preserved.</para>
@@ -2990,6 +3128,10 @@ the string value of the <option>replace</option> expression.</para>
   <para>The <option>pattern</option>, <option>replacement</option> and <option>flags</option> options are specified the
     same as the parameters with the same names of the <link xlink:href="https://www.w3.org/TR/xpath-functions-31/#func-replace"><function>fn:replace</function></link>
     function.</para>
+
+  <para>Replacing strings in text documents does not require identifying individual
+lines in each document, consequently no special end-of-line handling is
+performed.</para>
 
   <simplesect>
     <title>Document properties</title>
@@ -3044,7 +3186,7 @@ the string value of the <option>replace</option> expression.</para>
      <listitem>
       <para>The <option>collation</option> option identifies how strings are to be compared with each other. Its value
         must be a valid collation URI. The only collation XProc processors <rfc2119>must</rfc2119> support is the
-        Unicode Codepoint Collation <link xlink:href="https://www.w3.org/2005/xpath-functions/collation/codepoint/"><code>https://www.w3.org/2005/xpath-functions/collation/codepoint</code></link>. This is also its default.
+        Unicode Codepoint Collation <link xlink:href="https://www.w3.org/2005/xpath-functions/collation/codepoint/"><code>http://www.w3.org/2005/xpath-functions/collation/codepoint</code></link>. This is also its default.
         <impl>Support for other collations is <glossterm>implementation-defined</glossterm>.</impl></para>
     </listitem>
     <listitem>
@@ -3054,14 +3196,20 @@ the string value of the <option>replace</option> expression.</para>
   </itemizedlist>
 
   <para>Lines are identified as described in <link xlink:href="https://www.w3.org/TR/xml/#sec-line-ends">XML, 2.11
-      End-of-Line Handling</link>.</para>
+      End-of-Line Handling</link>.
+For the purpose of identifying lines, if the very last character in the text
+document is a newline (&amp;#10;), that newline is ignored. (It is not a separator
+between that line and a following line that contains no characters.)
+All lines returned by <tag>p:text-sort</tag> are terminated with a single
+newline (&amp;#10;).</para>
+
   <para>The sort process performed by this step is the same as described in 
     <link xlink:href="https://www.w3.org/TR/xslt-30/#xsl-sort">The xsl:sort Element</link>. Options <option>lang</option>
     and <option>case-order</option> are only taken into consideration if no value is selected for option
     <option>collation</option>.</para>
   <simplesect>
     <title>Document properties</title>
-    <para feature="add-attribute-preserves-all">All document properties are preserved.</para>
+    <para feature="text-sort-preserves-all">All document properties are preserved.</para>
   </simplesect>
 </section>
 <section xml:id="c.text-tail">
@@ -3092,7 +3240,9 @@ the string value of the <option>replace</option> expression.</para>
   </itemizedlist>
   
   <para>Lines are identified as described in <link xlink:href="https://www.w3.org/TR/xml/#sec-line-ends">XML, 2.11
-    End-of-Line Handling</link>.</para>
+    End-of-Line Handling</link>.
+All lines returned by <tag>p:text-tail</tag> are terminated with a single
+newline (&amp;#10;).</para>
   
   <simplesect>
     <title>Document properties</title>
@@ -3127,10 +3277,7 @@ the string value of the <option>replace</option> expression.</para>
           <para>If the <option>format</option> option is specified, this determines the format of
             the archive. Implementations <rfc2119>must</rfc2119> support the <biblioref linkend="zip"/> format, specified with the value <code>zip</code>. <impl>It is
                 <glossterm>implementation-defined</glossterm> what other formats are
-              supported.</impl>
-            <error code="C0081">It is a <glossterm>dynamic error</glossterm> if the format of the
-              archive does not match the format as specified in the <option>format</option>
-              option.</error></para>
+              supported.</impl></para>
         </listitem>
         <listitem>
           <para>If no <option>format</option> option is specified or if its value is the empty
@@ -3140,6 +3287,9 @@ the string value of the <option>replace</option> expression.</para>
                 <glossterm>implementation-defined</glossterm> how the step determines the archive's
               format.</impl> Implementations <rfc2119>should</rfc2119> recognize archives in
               <biblioref linkend="zip"/> format. </para>
+        </listitem>
+        <listitem><para><error code="C0085">It is a <glossterm>dynamic error</glossterm> if the format of the archive 
+          does not match the specified format, cannot be understood, determined and/or processed.</error></para>
         </listitem>
       </itemizedlist>
     </listitem>
@@ -3211,7 +3361,10 @@ the string value of the <option>replace</option> expression.</para>
     </listitem>
   </itemizedlist>
   
-  <para><error code="D0064">It is a <glossterm>dynamic
+  <para><error code="C0120">It is a <glossterm>dynamic error</glossterm> if the 
+    <option>relative-to</option> option is not present and the document on the 
+    <port>source</port> port does not have a base URI.</error>
+    <error code="D0064">It is a <glossterm>dynamic
     error</glossterm> if the option is not a valid URI according to <biblioref linkend="rfc3986"/>.</error></para>
   
   <para>For instance, the base URI of an unarchived file called <code>xyz.xml</code> that resided in
