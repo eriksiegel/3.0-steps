@@ -2,7 +2,7 @@
 <info>
 <title>XProc 3.0: Standard Step Library</title>
 <!-- defaults to date formatted <pubdate>2014-12-18</pubdate> -->
-<copyright><year>2018</year><year>2019</year>
+<copyright><year>2018</year><year>2019</year><year>2020</year>
 <holder>the Contributors to the XProc 3.0 Standard Step Library
 specifications</holder>
 </copyright>
@@ -87,11 +87,10 @@ implemented.
     conformant Expression per <biblioref linkend="xpath31"/>.
     </para>
   </listitem>
-  <listitem>
+  <listitem xml:id="dt-selection-pattern">
     <para><type>XSLTSelectionPattern</type>:
-<termdef xml:id="dt-selection-pattern">A <firstterm>selection pattern</firstterm> is an
-XSLT selection pattern. FIXME:</termdef>
-    </para>
+    As a string per <biblioref linkend="xslt30"/> conforming to an XSLT
+    <emphasis>selection pattern</emphasis>.</para>
   </listitem>
   <listitem>
     <para><type>XPathSequenceType</type>: An XPath
@@ -317,7 +316,7 @@ element's [base URI].</para>
 
   <p:declare-step type="p:archive">
     <p:input port="source" primary="true" content-types="any" sequence="true"/>
-    <p:input port="manifest" content-types="application/xml" sequence="true">
+    <p:input port="manifest" content-types="xml" sequence="true">
       <p:empty/>
     </p:input>
     <p:input port="archive" content-types="any" sequence="true">
@@ -335,7 +334,7 @@ element's [base URI].</para>
     format, provide services like update, freshen or even merge. The only format implementations
       <rfc2119>must</rfc2119> support is <biblioref linkend="zip"/>. <impl>The list of formats
       supported by the <tag>p:archive</tag> step is
-      <glossterm>implementation defined</glossterm>.</impl></para>
+      <glossterm>implementation-defined</glossterm>.</impl></para>
 
   <para>The <code>p:archive</code> step has the following input ports:</para>
   <variablelist>
@@ -346,8 +345,9 @@ element's [base URI].</para>
           (for instance constructed by other steps). How and which of these documents are processed
           is governed by the document(s) appearing on the other input ports and the combination of
           options and parameters. See below for details. <error code="C0084">It is a
-              <glossterm>dynamic error</glossterm> if documents appear on the <code>p:archive</code>
-            step's <port>source</port> port that have duplicate or no base URI's.</error></para>
+              <glossterm>dynamic error</glossterm> if two or more documents appear on the <code>p:archive</code>
+            step's <port>source</port> port that have the same base URI or if any document that
+        appears on the <port>source</port> port has no base URI.</error></para>
       </listitem>
     </varlistentry>
     <varlistentry>
@@ -370,7 +370,7 @@ element's [base URI].</para>
           operations like update, freshen or merge. Handling of ZIP files supports modifying
           archives appearing on the <port>archive</port> port (<xref linkend="cv.archive-zips"/>).
             <impl>The list of archive formats that can be modified by <tag>p:archive</tag> is
-              <glossterm>implementation defined</glossterm>.</impl> For instance an implementation
+              <glossterm>implementation-defined</glossterm>.</impl> For instance an implementation
           that supports archive merging may accept more than one document on the
             <port>archive</port> port.</para>
         <para>The default input for this port is the empty sequence.</para>
@@ -394,7 +394,7 @@ element's [base URI].</para>
           automatically created if there was no manifest provided), optionally amended with
           additional attributes and/or elements. <impl>The semantics of any additional attributes,
             elements and their values are
-          <glossterm>implementation defined</glossterm>.</impl></para>
+          <glossterm>implementation-defined</glossterm>.</impl></para>
       </listitem>
     </varlistentry>
   </variablelist>
@@ -407,7 +407,7 @@ element's [base URI].</para>
         <para>The format of the archive can be specified using the <option>format</option> option.
           Implementations <rfc2119>must</rfc2119> support the <biblioref linkend="zip"/> format,
           specified with the value <code>zip</code>. <impl>It is
-              <glossterm>implementation defined</glossterm> what other formats are
+              <glossterm>implementation-defined</glossterm> what other formats are
           supported.</impl></para>
       </listitem>
     </varlistentry>
@@ -416,7 +416,7 @@ element's [base URI].</para>
       <listitem>
         <para>The <option>parameters</option> option can be used to supply parameters to control the
           archiving. <impl>The semantics of the keys and the allowed values for these keys are
-              <glossterm>implementation defined</glossterm>.</impl>
+              <glossterm>implementation-defined</glossterm>.</impl>
           <error code="C0079">It is a <glossterm>dynamic error</glossterm> if the map
               <option>parameters</option> contains an entry whose key is defined by the
             implementation and whose value is not valid for that key.</error></para>
@@ -440,7 +440,7 @@ element's [base URI].</para>
       <para>If the <option>format</option> option is specified, this determines the format of the
         archive. Implementations <rfc2119>must</rfc2119> support the <biblioref linkend="zip"/>
         format, specified with the value <code>zip</code>. <impl>It is
-            <glossterm>implementation defined</glossterm> what other formats are supported.</impl>
+            <glossterm>implementation-defined</glossterm> what other formats are supported.</impl>
         <error code="C0081">It is a <glossterm>dynamic error</glossterm> if the format of the
           archive does not match the format as specified in the <option>format</option>
           option.</error></para>
@@ -449,7 +449,7 @@ element's [base URI].</para>
       <para>If no <option>format</option> option is specified or if its value is the empty sequence,
         the archive's format will be determined by the step, using the <code>content-type</code>
         document-property of the document on the <port>archive</port> port and/or by inspecting its
-        contents. <impl>It is <glossterm>implementation defined</glossterm> how the step determines
+        contents. <impl>It is <glossterm>implementation-defined</glossterm> how the step determines
           the archive's format.</impl> Implementations <rfc2119>should</rfc2119> recognize archives
         in <biblioref linkend="zip"/> format. </para>
     </listitem>
@@ -463,13 +463,18 @@ element's [base URI].</para>
   <section xml:id="cv.archive-manifest">
     <title>The archive manifest</title>
 
-    <para>An archive manifest specifies what must be archived and how. It is represented by a
-        <tag>c:archive</tag> root element:</para>
+    <para>An archive manifest specifies which documents will be considered in processing the
+    archive. Every entry in the archive must have a corresponding entry in the manifest; if no such
+    entry is provided, one will be constructed automatically (see below). If manifest entries are
+    provided for documents that <emphasis>are not</emphasis> in the archive, how those are processed
+    depends on the archive type and the parameters passed to the step.</para>
+
+    <para>A manifest is represented by a <tag>c:archive</tag> root element:</para>
 
     <e:rng-pattern name="VocabArchive" xml:id="cv.archive"/>
 
     <para><impl>The <code>c:archive</code> root element may contain additional
-          <glossterm>implementation defined</glossterm> attributes.</impl></para>
+    <glossterm>implementation-defined</glossterm> attributes.</impl></para>
 
     <para>All entries in the archive must be present as <tag>c:entry</tag> child elements:</para>
 
@@ -477,44 +482,45 @@ element's [base URI].</para>
 
     <itemizedlist>
       <listitem>
-        <para>The <code>name</code> attribute specifies the name of the entry in the archive. It
-            <rfc2119>must</rfc2119> be specified as a relative path.</para>
+        <para>The <code>name</code> attribute specifies the name of the entry in the archive.</para>
       </listitem>
       <listitem>
         <para>The <code>href</code> attribute must be a valid URI according to
           <biblioref linkend="rfc3986"/>. If its value is relative, it is made absolute
-          against the base URI of the manifest. Its is interpreted as follows:</para>
-        <itemizedlist>
-          <listitem>
-            <para>The <code>p:archive</code> step checks the documents appearing on its
-                <port>source</port> port for any documents with exactly the same base URI as the
-              value of the (made absolute) <code>href</code> attribute. If any such document is found,
-              this is used as entry for the archive. To store these documents in the archive they
-              must be serialized. The <code>serialization</code> document property can be used to
-              provide serialization properties.</para>
-          </listitem>
-          <listitem>
-            <para>If the above doesn't apply, the value of the (made absolute) <code>href</code>
-              attribute is interpreted as a URI and the document is loaded from this location.
-                <error code="D0011">It is a <glossterm>dynamic error</glossterm> if the resource
-                referenced by the <option>href</option> option does not exist, cannot be accessed or
-                is not a file.</error> These documents are stored in the archive "as is". No
-              parsing/serialization takes place.</para>
-          </listitem>
+          against the base URI of the manifest. There are two possible cases:</para>
 
+        <itemizedlist>
+        <listitem>
+        <para>If the (absolute) <code>href</code> value is exactly the same as the base URI of a
+        document appearing on the <port>source</port> port, that document is associated with this
+        entry. If this entry is to be added to the archive, the associated document will be used.
+        (The <code>serialization</code> document property can be used to provide serialization
+        properties.)
+        </para>
+        </listitem>
+
+        <listitem>
+        <para>If no document on the <port>source</port> port has a base URI that is exactly the same
+        as the (absolute) <code>href</code> value, the document at the specified URI is associated
+        with this entry. If this entry is to be added to the archive, the document must be obtained
+        by dereferencing the URI. <error code="D0011">It is a <glossterm>dynamic error</glossterm>
+        if the resource referenced by the <option>href</option> option does not exist, cannot be
+        accessed or is not a file.</error> These documents are stored in the archive “as is”; they
+        <rfc2119>must not</rfc2119> be parsed and re-serialized.</para>
+        </listitem>
         </itemizedlist>
       </listitem>
       <listitem>
         <para>The <code>method</code> attribute specifies how the entry should be compressed.
-            <impl>The default compression method is <glossterm>implementation defined</glossterm>.
+            <impl>The default compression method is <glossterm>implementation-defined</glossterm>.
           </impl>Implementations <rfc2119>must</rfc2119> support no compression, specified with the
-          value <code>none</code>. <impl>It is <glossterm>implementation defined</glossterm> what
+          value <code>none</code>. <impl>It is <glossterm>implementation-defined</glossterm> what
             other compression methods are supported.</impl></para>
       </listitem>
       <listitem>
         <para>The <code>level</code> attribute specifies the level of compression. <impl>The default
-            compression method is <glossterm>implementation defined</glossterm>. </impl>
-          <impl>It is <glossterm>implementation defined</glossterm> what compression levels are
+            compression method is <glossterm>implementation-defined</glossterm>. </impl>
+          <impl>It is <glossterm>implementation-defined</glossterm> what compression levels are
             supported.</impl></para>
       </listitem>
     </itemizedlist>
@@ -525,18 +531,41 @@ element's [base URI].</para>
       construct such an archive using <code>p:archive</code>.</para>
 
     <para><impl>The <code>c:entry</code> elements may contain additional
-          <glossterm>implementation defined</glossterm> attributes.</impl></para>
+          <glossterm>implementation-defined</glossterm> attributes.</impl></para>
 
     <para>If no manifest entry is provided for a document appearing on the <port>source</port> port,
-      the step will manufacture a manifest entry from the document’s <code>base-uri</code> property.
-      If no document arrives on the <port>manifest</port> port, it will create a complete manifest
-      document. The option <option>relative-to</option> can be used to derive the entry’s <tag role="attribute">name</tag> attribute from the <port>source</port> document’s
-        <code>base-uri</code> property, which in turn will be used for the entry’s <tag role="attribute">href</tag> attribute. First the step will make the value of the
-        <option>relative-to</option> absolute as specified above. Then it will remove the leading
-        <option>relative-to</option> option's value from the <port>source</port> document’s base
-      URI. If there is no match, the manifest entry’s <tag role="attribute">name</tag> attribute
-      will consist of the path part of the <port>source</port> document’s base URI, without any
-      leading protocol specifier and slashes.</para>
+      the step will create a manifest entry for the document.
+      (If no document arrives on the <port>manifest</port> port at all, a complete manifest
+      document will be created.)</para>
+
+    <para>In a constructed manifest entry:</para>
+
+    <itemizedlist>
+    <listitem>
+    <para>The entry’s <tag class="attribute">href</tag> value is the base URI of the document.
+    </para>
+    </listitem>
+    <listitem>
+    <para>The entry’s <tag class="attribute">name</tag> value is derived from the base URI of
+    the document and the <option>relative-to</option> option.</para>
+    <itemizedlist>
+    <listitem>
+    <para>First, the value of the <option>relative-to</option> option is made absolute. If the
+    initial substring of the base URI is exactly the same as the resulting absolute value, then the
+    <tag class="attribute">name</tag> is the portion of the base URI that follows that initial
+    substring.
+    </para>
+    </listitem>
+    <listitem>
+    <para>If there is no <option>relative-to</option> option or if its value is not the initial
+    substring of the base URI of the document, the name is the <emphasis>path</emphasis> portion of
+    the URI (per <biblioref linkend="rfc3986"/>). If the path portion begins with an initial slash,
+    that slash is removed.
+    </para>
+    </listitem>
+    </itemizedlist>
+    </listitem>
+    </itemizedlist>
     
     <para>
       <error code="C0118">It is a <glossterm>dynamic error</glossterm> if an archive manifest is
@@ -552,6 +581,9 @@ element's [base URI].</para>
       Implementations <rfc2119>must</rfc2119> support the <biblioref linkend="zip"/> format,
       specified with the value <code>zip</code>. </para>
 
+   <para>When ZIP archives are processed, every <tag class="attribute">name</tag> in the
+   manifest must be a relative path without a leading slash.</para>
+
     <para>The <option>parameters</option> option can be used to supply parameters to control the
       archiving. For the <code>zip</code> format, the following parameters <rfc2119>must</rfc2119>
       be supported:</para>
@@ -564,7 +596,7 @@ element's [base URI].</para>
               <literal>update</literal>. Implementations must support the values <literal>update</literal>,
               <literal>create</literal>, <literal>freshen</literal>, and <literal>delete</literal>.
               <impl>The <tag>p:archive</tag> step may support additional,
-              <glossterm>implementation defined</glossterm> commands for ZIP files.</impl>
+              <glossterm>implementation-defined</glossterm> commands for ZIP files.</impl>
               Unless otherwise specified, exactly zero or one ZIP archive can appear on the
               <port>archive</port> port for the commands described below. If no archive appears,
               a new archive will be created.
@@ -682,7 +714,7 @@ element's [base URI].</para>
     <para>Implementations of other archive formats <rfc2119>should</rfc2119> use the same parameter
       names if applicable. The value spaces for these parameters may be format-specific though.
         <impl>The actual parameter names supported by <tag>p:archive</tag> for a particular format
-        are <glossterm>implementation defined</glossterm>.</impl></para>
+        are <glossterm>implementation-defined</glossterm>.</impl></para>
 
   </section>
 
@@ -690,7 +722,8 @@ element's [base URI].</para>
 
   <simplesect>
     <title>Document properties</title>
-    <para feature="archive-preserves-none">No document properties are preserved.</para>
+    <para feature="archive-preserves-none">No document properties are preserved.
+The archive has no <property>base-uri</property>.</para>
   </simplesect>
 
 </section>
@@ -755,7 +788,7 @@ element's [base URI].</para>
     of an unarchived document by <xref linkend="c.unarchive"/>. 
     <error code="C0120">It is a <glossterm>dynamic error</glossterm> if the 
       <option>relative-to</option> option is not present and the document on the 
-      <port>source</port> port does not have a base URI.</error><impl>Additional information
+      <port>source</port> port does not have a base URI.</error> <impl>Additional information
       provided for entries in <tag>p:archive-manifest</tag> is
         <glossterm>implementation-defined</glossterm>.</impl></para>
 
@@ -763,9 +796,9 @@ element's [base URI].</para>
 
   <simplesect>
     <title>Document properties</title>
-    <para feature="archive-preserves-none">No document properties are preserved.</para>
+    <para feature="archive-manifest-preserves-none">No document properties are preserved.
+The manifest has no <property>base-uri</property>.</para>
   </simplesect>
-
 </section>
 <section xml:id="c.cast-content-type">
    <title>p:cast-content-type</title>
@@ -776,8 +809,8 @@ element's [base URI].</para>
    the same, this document will appear unchanged on <port>result</port> port.</para>
    
    <p:declare-step type="p:cast-content-type">
-      <p:input port="source" content-types="*/*"/>
-      <p:output port="result" content-types="*/*"/>
+      <p:input port="source" content-types="any"/>
+      <p:output port="result" content-types="any"/>
       <p:option name="content-type" required="true" as="xs:string"/>
       <p:option name="parameters" as="map(xs:QName,item()*)?"/>
    </p:declare-step>
@@ -1002,10 +1035,10 @@ element's [base URI].</para>
 equality.</para>
 
 <p:declare-step type="p:compare">
-   <p:input port="source" primary="true" content-types="*/*"/>
-   <p:input port="alternate" content-types="*/*"/>
+   <p:input port="source" primary="true" content-types="any"/>
+   <p:input port="alternate" content-types="any"/>
    <p:output port="result" content-types="application/xml"/>
-   <p:output port="differences" content-types="*/*" sequence="true"/>
+   <p:output port="differences" content-types="any" sequence="true"/>
    <p:option name="parameters" as="map(xs:QName,item()*)?"/>
    <p:option name="method" as="xs:QName?"/>
    <p:option name="fail-if-not-equal" as="xs:boolean" select="false()"/>
@@ -1044,7 +1077,8 @@ summary of the differences between the two documents may appear on the
 
 <simplesect>
 <title>Document properties</title>
-<para feature="compare-preserves-none">No document properties are preserved.</para>
+<para feature="compare-preserves-none">No document properties are preserved.
+The comparison document has no <property>base-uri</property>.</para>
 </simplesect>
 </section>
 <section xml:id="c.compress">
@@ -1124,7 +1158,7 @@ string representation of the number of documents in the
 sequence.</para>
 
 <p:declare-step type="p:count">
-   <p:input port="source" content-types="*/*" sequence="true"/>
+   <p:input port="source" content-types="any" sequence="true"/>
    <p:output port="result" content-types="application/xml"/>
    <p:option name="limit" as="xs:integer" select="0"/>
 </p:declare-step>
@@ -1138,7 +1172,8 @@ continue.</para>
 
 <simplesect>
 <title>Document properties</title>
-<para feature="count-preserves-none">No document properties are preserved.</para>
+<para feature="count-preserves-none">No document properties are preserved.
+The count document has no <property>base-uri</property>.</para>
 </simplesect>
 </section>
 <section xml:id="c.delete">
@@ -1231,7 +1266,8 @@ element in the pipeline.</para>
 
 <simplesect>
 <title>Document properties</title>
-<para feature="error-preserves-none">No document properties are preserved.</para>
+<para feature="error-preserves-none">No document properties are preserved but
+that’s irrelevant as no document is ever produced.</para>
 </simplesect>
 </section>
 <section xml:id="c.escape-markup">
@@ -1307,7 +1343,10 @@ expression is computed dynamically.</para>
 
 <simplesect>
 <title>Document properties</title>
-<para feature="filter-preserves-none">No document properties are preserved.</para>
+<para feature="filter-preserves-none">No document properties are preserved.
+The <property>base-uri</property> property of each document will reflect the
+base URI of the selected node(s).
+</para>
 </simplesect>
 </section>
 <section xml:id="c.hash">
@@ -1397,8 +1436,8 @@ the method, resource, and other request properties as well as possibly
 including an entity body (content) for the request.</para>
 
 <p:declare-step type="p:http-request">
-  <p:input port="source" content-types="*/*"/>
-  <p:output port="result" sequence="true" content-types="*/*"/>
+  <p:input port="source" content-types="any"/>
+  <p:output port="result" sequence="true" content-types="any"/>
   <p:option name="serialization" as="map(xs:QName,item()*)?"/>
 </p:declare-step>
 
@@ -1977,7 +2016,10 @@ name=W3C&amp;amp;spec=XProc
 
 <simplesect>
 <title>Document properties</title>
-<para feature="http-request-preserves-none">No document properties are preserved.</para>
+<para feature="http-request-preserves-none">No document properties are preserved.
+The <property>base-uri</property> property of the document(s) produced will reflect
+the base URI of the retrieved document(s).
+</para>
 </simplesect>
 </section>
 <section xml:id="c.identity">
@@ -2061,8 +2103,8 @@ as the source.</para>
 <simplesect>
 <title>Document properties</title>
 <para feature="insert-preserves-all">All document properties on the
-<port>source</port> port are preserved. No document properties on the
-<port>insertion</port> port are preserved.</para>
+<port>source</port> port are preserved. The document properties on the
+<port>insertion</port> port are not preserved or present in the result document.</para>
 </simplesect>
 </section>
 <section xml:id="c.json-join" version="5.0-extension w3c-xproc">
@@ -2116,7 +2158,9 @@ port <port>result</port> will not have any arrays as members. </para>
 
 <simplesect>
   <title>Document properties</title>
-  <para feature="json-join-preserves-none">No document properties are preserved.</para>
+  <para feature="json-join-preserves-none">No document properties are preserved.
+The joined document has no <property>base-uri</property>.
+</para>
 </simplesect>
 </section>
 <section xml:id="c.json-merge" version="5.0-extension w3c-xproc">
@@ -2173,7 +2217,9 @@ port <port>result</port>.</para>
     </para>
   <simplesect>
     <title>Document properties</title>
-    <para feature="json-merge-preserves-none">No document properties are preserved.</para>
+    <para feature="json-merge-preserves-none">No document properties are preserved.
+The merged document has no <property>base-uri</property>.
+</para>
   </simplesect>
 </section>
 <section xml:id="c.label-elements">
@@ -2376,6 +2422,10 @@ document that contains a tree of elements, attributes, and other nodes.</para>
 XPath data model is <glossterm>implementation-defined</glossterm>.</impl>
 </para>
 
+<para><error code="D0078">It is a <glossterm>dynamic error</glossterm>
+if the loaded document cannot be represented as an HTML document in
+the XPath data model.</error></para>
+
 <para><impl>HTML parameters are <glossterm>implementation-defined</glossterm>.
 </impl></para>
 </section>
@@ -2395,8 +2445,9 @@ are <glossterm>implementation-defined</glossterm>.
 
 <simplesect>
 <title>Document properties</title>
-<para feature="load-preserves-none">No document properties are preserved.
-The properties specified in <option>document-properties</option> are applied.
+<para>The properties specified in <option>document-properties</option> are applied.
+If the properties do not specify a <property>base-uri</property>, the 
+<property>base-uri</property> property will reflect the base URI of the loaded document.
 </para>
 </simplesect>
 </section>
@@ -2425,8 +2476,8 @@ nodes.</error></para>
 as an IRI reference. If it is relative, it is made absolute against
 the base URI of the element on which it is specified
 (<tag>p:with-option</tag> or <tag>p:make-absolute-uris</tag> in the case of
-a syntactic shortcut
-value).</para>
+  a syntactic shortcut value). <error code="D0064">It is a <glossterm>dynamic 
+    error</glossterm> if the base URI is not both absolute and valid according to <biblioref linkend="rfc3986"/>.</error></para>
 
 <para>For every element or attribute in the input document which
 matches the specified pattern, its XPath string-value is resolved
@@ -2634,7 +2685,9 @@ this step does not attempt to distinguish which one.</para>
 
 <simplesect>
 <title>Document properties</title>
-<para feature="pack-preserves-none">No document properties are preserved.</para>
+<para feature="pack-preserves-none">No document properties are preserved.
+The result documents do not have a <property>base-uri</property> property.
+</para>
 </simplesect>
 </section>
 <section xml:id="c.rename">
@@ -3015,7 +3068,9 @@ between that line and a following line that contains no characters.)
 
   <simplesect>
     <title>Document properties</title>
-    <para feature="count-preserves-none">No document properties are preserved.</para>
+    <para feature="text-count-preserves-none">No document properties are preserved.
+The count document does not have a <property>base-uri</property> property.
+</para>
   </simplesect>
 </section>
 <section xml:id="c.text-head">
@@ -3061,8 +3116,8 @@ newline (&amp;#10;).</para>
   <para>The <code>p:text-join</code> step concatenates text documents.</para>
   
   <p:declare-step type="p:text-join">
-    <p:output port="source" primary="true" sequence="true" content-types="text"/>
-    <p:output port="result" primary="true" sequence="false" content-types="text"/>
+    <p:input port="source" sequence="true" content-types="text"/>
+    <p:output port="result" content-types="text"/>
     <p:option name="separator" as="xs:string?"/>
     <p:option name="prefix" as="xs:string?"/>
     <p:option name="suffix" as="xs:string?"/>
@@ -3092,7 +3147,7 @@ newline (&amp;#10;).</para>
       a valid media type of the form
       “<literal><replaceable>type</replaceable>/<replaceable>subtype</replaceable>+<replaceable>ext</replaceable></literal>” 
       where “<literal>+<replaceable>ext</replaceable></literal>” is optional.</error> <error code="C0001">It is a
-      <glossterm>dynamic error</glossterm> if the value of option <option>overwrite-content-type</option> 
+        <glossterm>dynamic error</glossterm> if the value of option <option>override-content-type</option> 
       is not a text media type.</error>
   </para>
 
@@ -3102,7 +3157,9 @@ performed.</para>
 
   <simplesect>
     <title>Document properties</title>
-    <para feature="load-preserves-none">No document properties are preserved.</para>
+    <para feature="text-join-preserves-none">No document properties are preserved.
+The joined document has no <property>base-uri</property> property.
+</para>
   </simplesect>
 </section>
 <section xml:id="c.text-replace">
@@ -3246,7 +3303,7 @@ newline (&amp;#10;).</para>
   
   <simplesect>
     <title>Document properties</title>
-    <para feature="add-attribute-preserves-all">All document properties are preserved.</para>
+    <para feature="text-tail-preserves-all">All document properties are preserved.</para>
   </simplesect>
 </section>
 <section xml:id="c.unarchive">
@@ -3383,7 +3440,10 @@ newline (&amp;#10;).</para>
   
   <simplesect>
     <title>Document properties</title>
-    <para feature="archive-preserves-none">No document properties are preserved.</para>
+    <para feature="unarchive-preserves-none">No document properties are preserved.
+The <property>base-uri</property> property of each unarchived document is reflective of
+the base URI of the document.
+</para>
   </simplesect>
 </section>
 <section xml:id="c.uncompress">
@@ -3601,7 +3661,7 @@ document node with a single text child, the result will have content type
 
 <simplesect>
 <title>Document properties</title>
-<para feature="unwrap-preserves-none">No document properties are preserved.</para>
+<para feature="unwrap-preserves-all">All document properties are preserved.</para>
 </simplesect>
 </section>
 <section xml:id="c.uuid">
@@ -3701,11 +3761,14 @@ Whenever
 two or more sequentially adjacent documents have the same “group
 adjacent” value, they are wrapped together in a single wrapper
 element.
-</para>
+Two “group adjacent” values are the same if the
+standard XPath function <code>deep-equal()</code> returns true for them.</para>
 
 <simplesect>
 <title>Document properties</title>
-<para feature="wrap-sequence-preserves-none">No document properties are preserved.</para>
+<para feature="wrap-sequence-preserves-none">No document properties are preserved.
+The document produced has no <property>base-uri</property> property.
+</para>
 </simplesect>
 </section>
 <section xml:id="c.wrap">
@@ -3753,7 +3816,8 @@ adjacent matching nodes in a single wrapper element. The specified
 XPath expression is evaluated for each matching node with that node
 as the XPath context node. Whenever two or more adjacent matching nodes
 have the same “group adjacent” value, they are wrapped together in
-a single wrapper element.</para>
+a single wrapper element. Two “group adjacent” values are the same if the
+standard XPath function <code>deep-equal()</code> returns true for them.</para>
 
 <para>Two matching nodes are considered adjacent if and only if they
 are siblings and either there are no nodes between them or all
@@ -3762,7 +3826,7 @@ instruction nodes.</para>
 
 <simplesect>
 <title>Document properties</title>
-<para feature="wrap-preserves-none">No document properties are preserved.</para>
+<para feature="wrap-preserves-all">All document properties are preserved.</para>
 </simplesect>
 </section>
 <section xml:id="c.www-form-urldecode">
@@ -3795,7 +3859,9 @@ retains the order of name/value pairs in the encoded string.</para>
 
 <simplesect>
 <title>Document properties</title>
-<para feature="www-form-urldecode-preserves-none">No document properties are preserved.</para>
+<para feature="www-form-urldecode-preserves-none">No document properties are preserved.
+The resulting value has no <property>base-uri</property> property.
+</para>
 </simplesect>
 </section>
 <section xml:id="c.www-form-urlencode">
@@ -3819,7 +3885,9 @@ option, a name/value pair is created for each value.</para>
 
 <simplesect>
 <title>Document properties</title>
-<para feature="www-form-urlencode-preserves-none">No document properties are preserved.</para>
+<para feature="www-form-urlencode-preserves-none">No document properties are preserved.
+The resulting value has no <property>base-uri</property> property.
+</para>
 </simplesect>
 </section>
 <section xml:id="c.xinclude">
@@ -4059,7 +4127,11 @@ validation before using XQuery:</para>
 
 <section>
 <title>Document properties</title>
-<para feature="xquery-preserves-none">No document properties are preserved.</para>
+<para feature="xquery-preserves-none">No document properties are preserved.
+The <property>base-uri</property> property of each document will
+reflect the base URI specified by the query. If the query does not
+establish a base URI, the document will not have one.
+</para>
 </section>
 </section>
 <section xml:id="c.xslt">
@@ -4136,7 +4208,9 @@ validation before using XQuery:</para>
       URI reference. If no value is supplied for <option>output-base-uri</option>, the base URI of
       the first document in the <port>source</port> port's sequence is used. If no document is
       supplied on port <port>source</port> the base URI of the document on port <port>stylesheet</port>
-      is used.</para>
+      is used. <error code="C0121">It is a <glossterm>dynamic error</glossterm> if a document appearing
+        on the <port>secondary</port> port has a base URI that is not both absolute and 
+        valid according to <biblioref linkend="rfc3986"/>.</error></para>
     <note>
       <para>If no result tree is constructed for one of secondary results, a sequence of documents
         sharing the same value for attribute <literal>href</literal> may appear on output port
@@ -4172,7 +4246,9 @@ validation before using XQuery:</para>
       XSLT 2.0 specification, otherwise the base URI of the <port>result</port> document is the base
       URI of the first document in the <code>source</code> port's sequence. If no document is
       supplied on port <port>source</port> the base URI of the document on port <port>stylesheet</port>
-      is used.</para>
+      is used. <error code="C0121">It is a <glossterm>dynamic error</glossterm> if a document appearing
+        on the <port>secondary</port> port has a base URI that is not both absolute and 
+        valid according to <biblioref linkend="rfc3986"/>.</error></para>
   </section>
   
   <section>
@@ -4195,7 +4271,12 @@ validation before using XQuery:</para>
   </section>
   <simplesect>
     <title>Document properties</title>
-    <para feature="xslt-preserves-none">No document properties are preserved.</para>
+    <para feature="xslt-preserves-none">No document properties are
+    preserved. The <property>base-uri</property> property of each
+    document will reflect the base URI specified by the tranformation.
+    If the transformation does not establish a base URI, the document
+    will not have one.
+</para>
   </simplesect>
 </section>
 </section>
@@ -4295,6 +4376,10 @@ W3C Recommendation. 21 March 2017.</bibliomixed>
     <bibliomixed xml:id="xpath31-functions"><abbrev>XPath and XQuery Functions and Operators 3.1</abbrev>
 <citetitle xlink:href="https://www.w3.org/TR/xpath-functions-31/">XPath and XQuery Functions and  Operators 3.1</citetitle>. Michael Kay, editor.
 W3C Recommendation. 21 March 2017</bibliomixed>
+    <bibliomixed xml:id="xslt30"><abbrev>XSLT 3.0</abbrev>
+<citetitle xlink:href="http://www.w3.org/TR/xslt-30/">XSL Transformations (XSLT)
+Version 3.0</citetitle>. Michael Kay, editor.
+W3C Recommendation. 8 June 2017.</bibliomixed>
     <bibliomixed xml:id="xinclude"><abbrev>XInclude</abbrev>
 <citetitle xlink:href="http://www.w3.org/TR/xinclude/">XML Inclusions
 (XInclude) Version 1.0 (Second Edition)</citetitle>. Jonathan Marsh,
@@ -4308,12 +4393,6 @@ Andrew Coleman and C. M. Sperberg-McQueen, editors. W3C Recommendation. 21 March
 <citetitle xlink:href="https://doi.org/10.17487/RFC1321">RFC 1321:
 The MD5 Message-Digest Algorithm</citetitle>.
 R. Rivest. Network Working Group, IETF, April 1992.</bibliomixed>
-    <bibliomixed xml:id="rfc2045"><abbrev>RFC 2045</abbrev>
-<citetitle xlink:href="https://doi.org/10.17487/RFC2045">RFC 2045:
-MIME (Multipurpose Internet Mail Extensions) Part One: Mechanisms for
-Specifying and Describing the Format of Internet Message
-Bodies</citetitle>. N. Freed, N. Borenstein, editors. Internet
-Engineering Task Force. November, 1996.</bibliomixed>
     <bibliomixed xml:id="rfc2046"><abbrev>RFC 2046</abbrev>
 <citetitle xlink:href="https://doi.org/10.17487/RFC2046">RFC 2046:
 Multipurpose Internet Mail Extensions (MIME) Part Two: Media
@@ -4393,8 +4472,7 @@ how <glossterm role="unwrapped">implementation-defined</glossterm> features are 
 <firstterm>implementation-dependent</firstterm> feature is one where the
 implementation has discretion in how it is performed.
 Implementations are not required to document or explain
-how <glossterm role="unwrapped">implementation-dependent</glossterm> features are performed.</para></glossdef></glossentry><glossentry><glossterm>selection pattern</glossterm><glossdef><para>A <firstterm>selection pattern</firstterm> is an
-XSLT selection pattern. FIXME:</para></glossdef></glossentry></glosslist></appendix>
+how <glossterm role="unwrapped">implementation-dependent</glossterm> features are performed.</para></glossdef></glossentry></glosslist></appendix>
 
 <appendix version="5.0-extension w3c-xproc" xml:id="ancillary-files">
 <title>Ancillary files</title>

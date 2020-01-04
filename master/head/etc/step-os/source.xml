@@ -2,7 +2,7 @@
 <info>
 <title>XProc 3.0: operating system steps</title>
 <!-- defaults to date formatted <pubdate>2014-12-18</pubdate> -->
-<copyright><year>2018</year><year>2019</year>
+<copyright><year>2018</year><year>2019</year><year>2020</year>
 <holder>the Contributors to the XProc 3.0 Standard Step Library
 specifications</holder>
 </copyright>
@@ -160,10 +160,10 @@ reading <port>result</port> from standard output, and <port>errors</port>
 from standard error.</para>
 
 <p:declare-step type="p:os-exec">
-  <p:input port="source" primary="true" sequence="true" content-types="*/*"/>
-  <p:output port="result" primary="true" content-types="*/*"/>
-  <p:output port="errors"/>
-  <p:output port="exit-status"/>
+  <p:input port="source" sequence="true" content-types="any"/>
+  <p:output port="result" primary="true" content-types="any"/>
+  <p:output port="errors" content-types="any"/>
+  <p:output port="exit-status" content-types="application/xml"/>
   <p:option name="command" required="true" as="xs:string"/>
   <p:option name="args" select="''" as="xs:string"/>
   <p:option name="cwd" as="xs:string?"/>

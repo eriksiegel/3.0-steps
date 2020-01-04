@@ -2,7 +2,7 @@
 <info>
   <title>XProc 3.0: RDF steps</title>
   <!-- defaults to date formatted <pubdate>2014-12-18</pubdate> -->
-  <copyright><year>2018</year><year>2019</year>
+  <copyright><year>2018</year><year>2019</year><year>2020</year>
   <holder>the Contributors to the XProc 3.0 Standard Step Library
   specifications</holder>
   </copyright>
@@ -66,8 +66,8 @@
 The build for steps fails unless at least one step is defined.</para>
 
   <p:declare-step type="p:something-rdf">
-    <p:input port="source" primary="true" sequence="false" content-types="text/*"/>
-    <p:output port="result" primary="true" sequence="false" content-types="application/xhtml+xml"/>
+    <p:input port="source" primary="true" sequence="false" content-types="text"/>
+    <p:output port="result" primary="true" sequence="false" content-types="html"/>
     <p:option name="parameters" as="map(xs:QName, item()*)?"/>
   </p:declare-step>
 
