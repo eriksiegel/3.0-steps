@@ -411,7 +411,7 @@ element's [base URI].</p>
 
     <p>All entries in the archive must be present as <a href="#cv.entry"><code class="tag-element">c:entry</code></a> child elements:</p>
 
-    <p id="cv.entry" class="element-syntax element-syntax-step-vocabulary"><code>&lt;c:entry<br />  <strong>name</strong> = <var>string</var><br />  <strong>href</strong> = <var>anyURI</var><br />  comment? = <var>string</var><br />  method? = <var>string</var><br />  level? = <var>string</var>&gt;<br />    <var>anyElement</var>*<br />&lt;/c:entry&gt;</code></p>
+    <p id="cv.entry" class="element-syntax element-syntax-step-vocabulary"><code>&lt;c:entry<br />  <strong>name</strong> = <var>string</var><br />  <strong>href</strong> = <var>anyURI</var><br />  comment? = <var>string</var><br />  method? = <var>string</var><br />  level? = <var>string</var><br />  content-type? = <var>ContentType</var>&gt;<br />    <var>anyElement</var>*<br />&lt;/c:entry&gt;</code></p>
 
     <div class="itemizedlist">
       
@@ -914,7 +914,7 @@ The manifest has no <code class="property">base-uri</code>.</p>
                <code class="tag-attribute">content-type</code> attribute on the
                <a href="#c.data"><code class="tag-element">c:data</code></a> element.</p>
             
-            <p id="d768e0" class="element-syntax element-syntax-step-vocabulary"><code>&lt;c:data<br />  <strong>content-type</strong> = <var>ContentType</var><br />  charset? = <var>string</var><br />  encoding? = <var>string</var>&gt;<br />    <var>string</var><br />&lt;/c:data&gt;</code></p>
+            <p id="d769e0" class="element-syntax element-syntax-step-vocabulary"><code>&lt;c:data<br />  <strong>content-type</strong> = <var>ContentType</var><br />  charset? = <var>string</var><br />  encoding? = <var>string</var>&gt;<br />    <var>string</var><br />&lt;/c:data&gt;</code></p>
             
             <p>The content of the <a href="#c.data"><code class="tag-element">c:data</code></a> element is the base64 encoded
                representation of the non-XML content. The serialization property is removed.</p>
@@ -3300,7 +3300,7 @@ is empty.</p>
 <ul><li>
     <p>If the document root element is <a href="#cv.query"><code id="cv.query" class="tag-element">c:query</code></a>, the text
       descendants of this element are considered the query.</p>
-    <p id="d2235e0" class="element-syntax element-syntax-step-vocabulary"><code>&lt;c:query&gt;<br />    <var>string</var><br />&lt;/c:query&gt;</code></p>
+    <p id="d2236e0" class="element-syntax element-syntax-step-vocabulary"><code>&lt;c:query&gt;<br />    <var>string</var><br />&lt;/c:query&gt;</code></p>
   </li><li>
       <p>If the document root element is in the XQueryX namespace, the
         document is treated as an XQueryX-encoded query. <span id="impl-64">Support for
@@ -4064,9 +4064,14 @@ who contributed to this document and all of the versions that came before it.</p
 draft:</p>
 
  <div class="orderedlist">
-  
+   
+   
   
 <ol style="list-style: decimal;"><li>
+        <p><a href="#cv.archive-manifest" title="The archive manifest">Section 2.3.1, “The archive manifest”</a>: An attribute
+            <code class="code">c:entry/@content-type</code> was added to the archive manifest, to be filled by the
+            <a href="#c.archive-manifest"><code class="tag-element">p:archive-manifest</code></a> step. (2020-03-20)</p>
+   </li><li>
     <p>For <a href="#c.cast-content-type"><code class="tag-element">p:cast-content-type</code></a> the expected result type for casting a 
     <code class="literal">c:param-set</code> document to “<code class="literal">application/json</code>” was
     specified as <code class="literal">map(xs:QName, xs:string)</code>. (2020-03-15)</p>
