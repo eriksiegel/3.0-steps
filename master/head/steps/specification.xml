@@ -816,8 +816,10 @@ The archive has no <property>base-uri</property>.</para>
       </listitem>
       <listitem>
         <para>The second member in an inner array <rfc2119>must</rfc2119> be a valid a MIME
-          content-type. <error code="C0130">It is a <glossterm>dynamic error</glossterm> if the
-            content-type specified is not a valid content type.</error></para>
+          content-type. <error code="D0079">It is a <glossterm>dynamic error</glossterm> if a supplied 
+            content-type is not a valid media type of the form 
+            “<literal><replaceable>type</replaceable>/<replaceable>subtype</replaceable>+<replaceable>ext</replaceable></literal>” 
+            or “<literal><replaceable>type</replaceable>/<replaceable>subtype</replaceable></literal>”.</error></para>
       </listitem>
     </itemizedlist>
 
@@ -829,13 +831,16 @@ The archive has no <property>base-uri</property>.</para>
     <itemizedlist>
       <listitem>
         <para>The XPath regular expressions (the first members of the inner arrays) will be matched
-          against the relative filename of the archive's entry (the relative path
-            <emphasis>in</emphasis> the archive, leading up to the entry, for instance
-            <code>img/logos/company-logo.png</code>). This will be done in the order of appearance
-          in the outer array (so order is significant). The matching is done unanchored: it is a
-          match if the regular expression matches part of the filename. Informally: matching behaves
-          like applying the XPath <code>matches#2</code> function, like in 
-          <code>matches($path-in-archive, $regular-expression)</code>.</para>
+          against the path of the entry <emphasis>in</emphasis> the archive. This will be done in
+          the order of appearance in the outer array (so order is significant). The matching is done
+          unanchored: it is a match if the regular expression matches part of the entry's path.
+          Informally: matching behaves like applying the XPath <code>matches#2</code> function, like
+          in <code>matches($path-in-archive, $regular-expression)</code>.</para>
+        <note>
+          <para>Depending on how archives are constructed, the path of an entry in an archive can be
+            with or without a leading slash. Usually it will be without. For archives constructed by
+              <tag>p:archive</tag> no leading slash will be present.</para>
+        </note>
       </listitem>
       <listitem>
         <para>If a match is found, the content-type (the second member of the inner array for which
@@ -881,11 +886,10 @@ The archive has no <property>base-uri</property>.</para>
    </p:declare-step>
    
    <para>The input document is transformed from one media type to another.
-      <error code="C0070">It is a <glossterm>dynamic
-         error</glossterm> if the supplied <option>content-type</option> is not
-         a valid media type of the form
-         “<literal><replaceable>type</replaceable>/<replaceable>subtype</replaceable>+<replaceable>ext</replaceable></literal>”
-         where “<literal>+<replaceable>ext</replaceable></literal>” is optional.</error>
+      <error code="D0079">It is a <glossterm>dynamic error</glossterm> if a supplied content-type is not 
+         a valid media type of the form 
+         “<literal><replaceable>type</replaceable>/<replaceable>subtype</replaceable>+<replaceable>ext</replaceable></literal>” 
+         or “<literal><replaceable>type</replaceable>/<replaceable>subtype</replaceable></literal>”.</error>
       <error code="C0071">It is a <glossterm>dynamic
          error</glossterm> if the <tag>p:cast-content-type</tag> step
          cannot perform the requested cast.</error>
@@ -1572,8 +1576,10 @@ converted to lowercase.</para>
       the content type value of the document. If the content type
       specified begins with “<literal>multipart/</literal>”, a
       multipart request will be sent to the server.</para>
-      <para><error code="C0130">It is a <glossterm>dynamic error</glossterm> if
-      the content-type specified is not a valid content type.</error></para>
+      <para><error code="D0079">It is a <glossterm>dynamic error</glossterm> if a supplied content-type is not 
+        a valid media type of the form 
+        “<literal><replaceable>type</replaceable>/<replaceable>subtype</replaceable>+<replaceable>ext</replaceable></literal>” 
+        or “<literal><replaceable>type</replaceable>/<replaceable>subtype</replaceable></literal>”.</error></para>
     </listitem>
   </varlistentry>
   <varlistentry>
@@ -3065,11 +3071,10 @@ newline (&amp;#10;).</para>
     </listitem>
   </itemizedlist>
   <para>When the <option>override-content-type</option> option is specified, the document appearing on the port <port>result</port>
-    will have this media type as part of its document properties. <error code="C0070">It is a <glossterm>dynamic
-      error</glossterm> if the supplied <option>content-type</option> is not
-      a valid media type of the form
+    will have this media type as part of its document properties. <error code="D0079">It is a <glossterm>dynamic 
+      error</glossterm> if a supplied content-type is not  a valid media type of the form 
       “<literal><replaceable>type</replaceable>/<replaceable>subtype</replaceable>+<replaceable>ext</replaceable></literal>” 
-      where “<literal>+<replaceable>ext</replaceable></literal>” is optional.</error> <error code="C0001">It is a
+      or “<literal><replaceable>type</replaceable>/<replaceable>subtype</replaceable></literal>”.</error> <error code="C0001">It is a
         <glossterm>dynamic error</glossterm> if the value of option <option>override-content-type</option> 
       is not a text media type.</error>
   </para>
@@ -3321,12 +3326,17 @@ newline (&amp;#10;).</para>
       <para>As a result: an item is included if it matches (at least) one of the
           <option>include-filter</option> values and none of the <option>exclude-filter</option>
         values.</para>
-      <para>Matching will be done using the relative filename of the archive's entry (the relative
-        path <emphasis>in</emphasis> the archive, leading up to the entry, for instance
-          <code>img/logos/company-logo.png</code>). The matching is done unanchored: it is a match if
-        the regular expression matches part of the filename. Informally: matching behaves like
+      <para>The regular expressions specified in the <option>include-filter</option> and
+          <option>exclude-filter</option> options will be matched against the path of the entry
+          <emphasis>in</emphasis> the archive. The matching is done unanchored: it is a match if the
+        regular expression matches part of the entry's path. Informally: matching behaves like
         applying the XPath <code>matches#2</code> function, like in <code>matches($path-in-archive,
           $regular-expression)</code>.</para>
+      <note>
+        <para>Depending on how archives are constructed, the path of an entry in an archive can be
+          with or without a leading slash. Usually it will be without. For archives constructed by
+            <tag>p:archive</tag> no leading slash will be present.</para>
+      </note>
     </listitem>
     <listitem>
       <para>The <option>relative-to</option> option, when present, is used in creating the base URI
@@ -3431,10 +3441,11 @@ the base URI of the document.
   <orderedlist>
     <listitem>
       <para>If the <option>content-type</option> option is specified, the uncompressed document
-          <rfc2119>must</rfc2119> be interpreted according to that content-type. <error code="C0070">It is a <glossterm>dynamic error</glossterm> if the supplied
-            <option>content-type</option> is not a valid media type of the form
-              “<literal><replaceable>type</replaceable>/<replaceable>subtype</replaceable>+<replaceable>ext</replaceable></literal>”
-          where “<literal>+<replaceable>ext</replaceable></literal>” is optional.</error>
+        <rfc2119>must</rfc2119> be interpreted according to that content-type. 
+        <error code="D0079">It is a <glossterm>dynamic error</glossterm> if a supplied content-type is not 
+          a valid media type of the form 
+          “<literal><replaceable>type</replaceable>/<replaceable>subtype</replaceable>+<replaceable>ext</replaceable></literal>” 
+          or “<literal><replaceable>type</replaceable>/<replaceable>subtype</replaceable></literal>”.</error>
         <error code="C0201">It is a <glossterm>dynamic error</glossterm> if the
             <tag>p:uncompress</tag> step cannot perform the requested content-type cast.</error>
       </para>
@@ -4372,6 +4383,9 @@ draft:</para>
    <listitem>
         <para>Clarified the regular expression matching for <tag>p:text-replace</tag> and
             <tag>p:unarchive</tag>. Added an error code for invalid regular expressions. (2020-04-02)</para>
+   </listitem>
+   <listitem>
+     <para>Replaced errors XC0070 and XC0130 with XD0079. (2020-04-09)</para>
    </listitem>
  </orderedlist>
 </appendix>
