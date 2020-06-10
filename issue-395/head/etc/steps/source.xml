@@ -4029,9 +4029,7 @@ establish a base URI, the document will not have one.
     <itemizedlist>
       <listitem>
         <para>If there is a single document on the <port>source</port> port, this document will
-          become the value of the <option>global-context-item</option> option. Whether there will be
-          node-identity between the global context item and the source document is
-            <glossterm>implementation-dependent</glossterm>.</para>
+          become the value of the <option>global-context-item</option> option.</para>
       </listitem>
       <listitem>
         <para>If there are none or multiple documents on the <port>source</port> port, its value
@@ -4405,6 +4403,9 @@ draft:</para>
    <listitem>
      <para>Changed signature of <tag>p:split-sequence</tag> so that any document can appear one port 
        source. (2020-05-22)</para>
+   </listitem>
+   <listitem>
+     <para>Change the behavior of the <option>global-context-item</option> option of <tag>p:xslt</tag>. (2020-06-10)</para>
    </listitem>
  </orderedlist>
 </appendix>
